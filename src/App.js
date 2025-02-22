@@ -1,23 +1,17 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import AllTransactions from "./components/AllTransactions";
+import Statistics from "./components/Statistics";
+import BarchartDisplay from "./components/BarchartDisplay";
 
 function App() {
+  const [selectedMonth, setSelectedMonth] = useState("03"); // Ensure "MM" format
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container mx-auto p-6">
+      <h1 className="text-2xl font-bold text-center mb-6">Transaction Dashboard</h1>
+      <AllTransactions selectedMonth={selectedMonth} onMonthChange={setSelectedMonth} />
+      <Statistics selectedMonth={selectedMonth} />
+      <BarchartDisplay selectedMonth={selectedMonth} />
     </div>
   );
 }
