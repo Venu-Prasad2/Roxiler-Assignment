@@ -6,14 +6,19 @@ const Statistics = ({ selectedMonth }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!selectedMonth) return;
+    if (!selectedMonth) {
+      setStats(null);
+      return;
+    }
 
     const fetchStatistics = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const response = await fetch(`http://localhost:3000/api/statistics?month=${selectedMonth}`);
+        const response = await fetch(
+          `https://roxiler-backend-swart.vercel.app/api/statistics?month=${selectedMonth}`
+        );
         if (!response.ok) throw new Error("Failed to fetch statistics");
 
         const data = await response.json();
@@ -45,12 +50,16 @@ const Statistics = ({ selectedMonth }) => {
         <div className="text-center text-red-500">{error}</div>
       ) : stats ? (
         <div className="bg-blue-50 p-6 rounded-lg shadow-lg text-center">
-          <div className="bg-yellow-300 p-4 rounded-md inline-block">
+          <div className="bg-yellow-300 p-6 rounded-lg shadow-md inline-block space-y-2">
             <p className="text-lg font-semibold">
-              💰 Total Sales: ${stats.totalSaleAmount.toFixed(2)}
+              Total Sales: ${stats.totalSaleAmount?.toFixed(2) || "0.00"}
             </p>
-            <p className="text-lg font-semibold">✅ Sold Items: {stats.totalSoldItems}</p>
-            <p className="text-lg font-semibold">❌ Unsold Items: {stats.totalNotSoldItems}</p>
+            <p className="text-lg font-semibold">
+              Sold Items: {stats.totalSoldItems}
+            </p>
+            <p className="text-lg font-semibold">
+              Unsold Items: {stats.totalNotSoldItems}
+            </p>
           </div>
         </div>
       ) : (
